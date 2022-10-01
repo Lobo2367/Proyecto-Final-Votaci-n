@@ -23,12 +23,12 @@ export class VotanteController {
 
   @Get()
   findAll() {
-    return this.votanteService.findAll();
+    return this.votanteService.getAllVotantes();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.votanteService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.votanteService.getSingleProduct(id);
   }
 
   @Patch(':id')

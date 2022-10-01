@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateVotanteDto } from './dto/create-votante.dto';
 import { UpdateVotanteDto } from './dto/update-votante.dto';
@@ -21,13 +21,25 @@ export class VotanteService {
   return result.id as string;
 }
 
-  findAll() {
-    return `This action returns all votante`;
-  }
+async getAllVotantes() {
+  const products = await this.VotanteModel.find().exec();
+  return products.map(vota => ({
+    id: vota.id,
+    nombre: vota.nombre,
+    apellido: vota.apellido,
+    cedula: vota.cedula,
+  }));
+}
 
-  findOne(id: number) {
-    return `This action returns a #${id} votante`;
-  }
+async getSingleProduct(_id: number) {
+  const votante = await this.findVotante(_id);
+  return {
+    id: votante._id,
+    nombre: votante.nombre,
+    apellido: votante.apellido,
+    cedula: votante.cedula,
+  };
+}
 
   update(id: number, updateVotanteDto: UpdateVotanteDto) {
     return `This action updates a #${id} votante`;
@@ -35,5 +47,22 @@ export class VotanteService {
 
   remove(id: number) {
     return `This action removes a #${id} votante`;
+  }
+
+
+
+
+
+  private async findVotante(id: number): Promise<Votante> {
+    let votante;
+    try {
+      votante = await this.VotanteModel.findById(id).exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find product.');
+    }
+    if (!votante) {
+      throw new NotFoundException('Could not find product.');
+    }
+    return votante;
   }
 }
