@@ -8,8 +8,17 @@ export class VotanteController {
   constructor(private readonly votanteService: VotanteService) {}
 
   @Post()
-  create(@Body() createVotanteDto: CreateVotanteDto) {
-    return this.votanteService.create(createVotanteDto);
+  async addProduct(
+    @Body('nombre') nombre: string,
+    @Body('apellido') apellido: string,
+    @Body('cedula') cedula: number,
+  ) {
+    const generatedId = await this.votanteService.createVotante(
+      nombre,
+      apellido,
+      cedula,
+    );
+    return { id: generatedId };
   }
 
   @Get()

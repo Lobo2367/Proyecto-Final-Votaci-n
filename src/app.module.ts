@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { VotanteModule } from './votante/votante.module';
 
 @Module({
-  imports: [VotanteModule, MongooseModule.forRoot('mongodb+srv://Lobo2367:santiagodecuba@voting.bwshn1j.mongodb.net/?retryWrites=true&w=majority')],
+  imports: [VotanteModule, MongooseModule.forRoot('mongodb+srv://Lobo2367:santiagodecuba@voting.bwshn1j.mongodb.net/Voting?retryWrites=true&w=majority')],
   controllers: [AppController],
   providers: [AppService],
 })
